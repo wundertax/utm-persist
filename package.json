@@ -14,7 +14,7 @@
     "clean": "rm -rf dist",
     "lint": "eslint src",
     "prebuild": "npm run clean && npm run init",
-    "publish-to-npm": "npm run build:readme && npm run dist && npm publish --access public",
+    "publish-to-npm": "npm run build:readme && npm run build && npm publish --access public",
     "test": "NODE_ENV=testing jest"
   },
   "keywords": [
