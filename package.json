@@ -9,10 +9,12 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "babel ./src -d ./dist --presets env",
+    "build:readme": "toctoc README.md -w",
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "lint": "eslint src",
     "prebuild": "npm run clean && npm run init",
+    "publish-to-npm": "npm run build:readme && npm run dist && npm publish --access public",
     "test": "NODE_ENV=testing jest"
   },
   "keywords": [
@@ -33,7 +35,8 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jest": "^21.12.1",
     "jest": "^22.4.2",
-    "jest-localstorage-mock": "^2.2.0"
+    "jest-localstorage-mock": "^2.2.0",
+    "toctoc": "^0.2.3"
   },
   "jest": {
     "setupFiles": [

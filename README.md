@@ -1,6 +1,7 @@
 @wundertax/utm-persist
 ======================
 
+[![Build Status](https://travis-ci.org/wundertax/utm-persist.svg?branch=master)](https://travis-ci.org/wundertax/utm-persist)
 
 ## Table of Contents
 
