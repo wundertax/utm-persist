@@ -36,7 +36,6 @@ describe('test history access', () => {
   let handler = null;
 
   beforeAll(() => {
-    const url = '?utm_source=google&utm_medium=medium&utm_term=keyword&utm_content=some%20content&utm_campaign=some%20campaign&utm_test=other%20value';
     handler = new UTMHandler();
   });
 
@@ -60,7 +59,6 @@ describe('test custom storage key', () => {
   let storageKey = '';
 
   beforeAll(() => {
-    const url = '?utm_source=google&utm_medium=medium&utm_term=keyword&utm_content=some%20content&utm_campaign=some%20campaign&utm_test=other%20value';
     storageKey = 'foobar';
     handler = new UTMHandler(storageKey);
   });

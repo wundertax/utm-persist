@@ -2,8 +2,17 @@
   "name": "@wundertax/utm-persist",
   "version": "1.0.0",
   "description": "Persist UTM parameters to Local Storage",
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wundertax/utm_persist.git"
+  },
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "babel ./src -d ./dist --presets env",
+    "init": "mkdir dist",
+    "clean": "rm -rf dist",
+    "lint": "eslint src",
+    "prebuild": "npm run clean && npm run init",
     "test": "NODE_ENV=testing jest"
   },
   "keywords": [
@@ -16,8 +25,13 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^22.4.1",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.9.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jest": "^21.12.1",
     "jest": "^22.4.2",
     "jest-localstorage-mock": "^2.2.0"
   },
