@@ -43,6 +43,23 @@ function extractParams(url) {
   return obj;
 }
 
+function extractReferral() {
+  let referrerName = '';
+  const referrer = document.referrer;
+  const referrerDomainToNameMap = {
+    'https://www.google.com/': 'google',
+    'https://www.bing.com/': 'bing',
+    'https://duckduckgo.com/': 'duckduckgo',
+    'https://de.search.yahoo.com/': 'yahoo',
+    'https://search.yahoo.com/': 'yahoo'
+  };
+  if (referrerDomainToNameMap[referrer]){
+    referrerName = referrerDomainToNameMap[referrer];
+  }
+
+  return referrerName;
+}
+
 class UTMHandler {
 
   constructor(storageKey='utm_history') {
@@ -72,12 +89,37 @@ class UTMHandler {
     localStorage.setItem(this.storageKey, JSON.stringify(value));
   }
 
-  processUTM(url) {
-    const history = this.history;
-    const data = this.extractUTM(url);
+  checkReferral() {
+    const referral = extractReferral();
+    const date = new Date().toISOString();
+    const utm_medium = 'organic';
+    const data = {
+      date: date,
+      utm_source: referral,
+      utm_medium: utm_medium
+    };
+
+    return (referral === "" || referral === undefined) ? null : data;
+  }
+
+  saveHistory(data) {
     if (data) {
+      const history = this.history;
       history.push(data);
       this.history = history;
+    }
+  }
+
+  processUTM(url) {
+    const data = this.extractUTM(url);
+    this.saveHistory(data);
+  }
+
+  processReferral(url) {
+    const hasNoUTM = this.extractUTM(url) == null;
+    if (hasNoUTM) {
+      const data = this.checkReferral();
+      this.saveHistory(data);
     }
   }
 }

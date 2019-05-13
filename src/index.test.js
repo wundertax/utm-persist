@@ -53,7 +53,6 @@ describe('test history access', () => {
 
 });
 
-
 describe('test custom storage key', () => {
   let handler = null;
   let storageKey = '';
@@ -73,6 +72,62 @@ describe('test custom storage key', () => {
     handler.processUTM(url);
     const utmLocalStorage = handler.history;
     expect(utmLocalStorage.length).toEqual(1);
+  });
+
+});
+
+describe('test referrel processing without utm params', () => {
+  let handler = null;
+  let storageKey = 'referrel';
+
+  beforeAll(() => {
+    const url = '?utm_medium=utm_not_valid_because_has_no_source';
+    const referrer = 'https://www.google.com/';
+    Object.defineProperty(window.document, 'referrer', { value: referrer, writable: true });
+    handler = new UTMHandler(storageKey);
+    handler.processReferral(url);
+  });
+
+  it('should return referrer and save it on localStorage', () => {
+    const utmLocalStorage = handler.history;
+    expect(utmLocalStorage.length).toEqual(1);
+  });
+
+});
+
+describe('test valid referrel processing with utm params', () => {
+  let handler = null;
+  let storageKey = 'referrel-with-utm';
+
+  beforeAll(() => {
+    const url = '?utm_source=test';
+    const referrer = 'https://www.google.com/';
+    window.document.referrer = referrer;
+    handler = new UTMHandler(storageKey);
+    handler.processReferral(url);
+  });
+
+  it('should not return the referrer and not save anything on localStorage ', () => {
+    const utmLocalStorage = handler.history;
+    expect(utmLocalStorage.length).toEqual(0);
+  });
+
+});
+
+describe('test not listed referrer processing with utm params', () => {
+  let handler = null;
+  let storageKey = 'referrel-with-not-listed-referrer';
+
+  beforeAll(() => {
+    const url = '?utm_medium=utm_not_valid_because_has_no_source';
+    const referrer = 'https://www.nosearch.de/';
+    window.document.referrer = referrer;    handler = new UTMHandler(storageKey);
+    handler.processReferral(url);
+  });
+
+  it('should not return the referrer and not save anything on localStorage ', () => {
+    const utmLocalStorage = handler.history;
+    expect(utmLocalStorage.length).toEqual(0);
   });
 
 });
