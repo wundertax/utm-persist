@@ -45,6 +45,8 @@
     "toctoc": "^0.2.3"
   },
   "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
     "setupFiles": [
       "jest-localstorage-mock"
     ],
